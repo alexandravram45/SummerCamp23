@@ -2,38 +2,61 @@
 
 {% block title %}Team index{% endblock %}
 
+
+{% block head %}
+    <style>
+        .card:hover{
+            transform: scale(1.05);
+            background-color: red;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-    <h1>Team index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>NumberOfPlayers</th>
-                <th>NumberOfPoints</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for team in teams %}
-            <tr>
-                <td>{{ team.id }}</td>
-                <td>{{ team.name }}</td>
-                <td>{{ team.numberOfPlayers }}</td>
-                <td>{{ team.numberOfPoints }}</td>
-                <td>
-                    <a href="{{ path('app_team_show', {'id': team.id}) }}">show</a>
-                    <a href="{{ path('app_team_edit', {'id': team.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="jumbotron" style="
+            background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('images/team2.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            -webkit-box-shadow: 1px 3px 16px -1px #000000;
+            box-shadow: 1px 3px 16px -1px #000000;">
+            <div class="container" style="padding: 70px 0">
+                <p class="display-4 text-light">Teams</p>
 
-    <a href="{{ path('app_team_new') }}">Create new</a>
+            </div>
+    </div>
+
+    <div class="container text-center my-5" style="color: white">
+        <div class="container" style="color: white">
+            <a href="{{ path('app_team_new') }}" class="btn btn-outline-warning mb-4" role="button">Create new</a>
+
+            <div class="row">
+                {% for team in teams %}
+                <div class="col-3 my-3">
+                    <div class="card" style="
+                    background-color: #303540;
+                    -webkit-box-shadow: 1px 8px 17px -6px rgba(0,0,0,0.47);
+                    box-shadow: 1px 8px 17px -6px rgba(0,0,0,0.47);
+                    ">
+                        <div class="bg-image hover-zoom">
+                            <img class="card-img-top p-4 hover-shadow" src="{{ asset('images/' ~ team.image) }}" alt="Card image cap">
+                        </div>
+                        <div class="card-body">
+                            <div class="d-inline-flex" >
+                                <img src="{{ asset('images/logo.png') }}" style="width: 40px; height: 40px" alt="">
+                                <h5 class="card-title"style="padding: 7px 0">{{ team.name }}</h5>
+                            </div>
+
+                            <p class="card-text">Players: {{ team.numberOfPlayers }}</p>
+                            <p class="card-text">Wins: </p>
+                            <a href="{{ path('app_team_show', {'id': team.id}) }}" class="btn btn-outline-secondary" role="button">show</a>
+                            <a href="{{ path('app_team_edit', {'id': team.id}) }}" class="btn btn-outline btn-warning" role="button">edit</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

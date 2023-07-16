@@ -6,6 +6,8 @@ use App\Repository\TeamRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use function Symfony\Component\Translation\t;
 
 #[ORM\Entity(repositoryClass: TeamRepository::class)]
 class Team
@@ -15,22 +17,26 @@ class Team
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column]
+    #[Assert\Length(
+        min: 3,
+        max: 255,
+        minMessage: 'Name must be at least {{ limit }} characters long',
+        maxMessage: 'Name cannot be longer than {{ limit }} characters',
+    )]
     private ?string $name = null;
 
     #[ORM\Column]
-    private ?int $numberOfPlayers = null;
+    #[Assert\GreaterThanOrEqual(0)]
+    private int $numberOfPlayers;
 
-    #[ORM\ManyToMany(targetEntity: Game::class, inversedBy: 'teams')]
-    private Collection $games;
-
-    #[ORM\Column]
-    private ?int $numberOfPoints = null;
-
-    public function __construct()
-    {
-        $this->games = new ArrayCollection();
-    }
+    #[ORM\Column(nullable: true)]
+    #[Assert\Image(
+        maxSize: '2048k',
+        mimeTypes: ['image/png', 'image/jpeg'],
+        maxSizeMessage: 'The image is too large.'
+    )]
+    private ?string $image = null;
 
     public function getId(): ?int
     {
@@ -61,44 +67,25 @@ class Team
         return $this;
     }
 
-    /**
-     * @return Collection<int, Game>
-     */
-    public function getGames(): Collection
+    public function getImage(): ?string
     {
-        return $this->games;
+
+        return $this->image;
     }
 
-    public function addGame(Game $game): static
+    public function setImage(?string $image): self
     {
-        if (!$this->games->contains($game)) {
-            $this->games->add($game);
-        }
+        $this->image = $image;
 
         return $this;
     }
 
-    public function removeGame(Game $game): static
-    {
-        $this->games->removeElement($game);
 
-        return $this;
-    }
-
-    public function getNumberOfPoints(): ?int
-    {
-        return $this->numberOfPoints;
-    }
-
-    public function setNumberOfPoints(int $numberOfPoints): static
-    {
-        $this->numberOfPoints = $numberOfPoints;
-
-        return $this;
-    }
 
     public function __toString(): string
     {
         return $this->getName();
     }
+
+
 }

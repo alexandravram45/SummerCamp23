@@ -2,36 +2,55 @@
 
 {% block title %}Game index{% endblock %}
 
-{% block body %}
-    <h1>Game index</h1>
+    {% block body %}
+        <div class="jumbotron" style="
+                background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('images/game.jpg') }}');
+                background-size: cover;
+                background-position: bottom;
+                height: 400px;
+                -webkit-box-shadow: 1px 3px 16px -1px #000000;
+                box-shadow: 1px 3px 16px -1px #000000;">
+            <div class="container" style="padding: 70px 0">
+                <p class="display-4 text-light ">Games</p>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>StartingDate</th>
-                <th>WinnerID</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for game in games %}
-            <tr>
-                <td>{{ game.id }}</td>
-                <td>{{ game.startingDate ? game.startingDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ game.winnerID }}</td>
-                <td>
-                    <a href="{{ path('app_game_show', {'id': game.id}) }}">show</a>
-                    <a href="{{ path('app_game_edit', {'id': game.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </div>
+        </div>
+    <div class="container text-center my-5" style="color: white">
+        <h1 >Scheduled games</h1>
 
-    <a href="{{ path('app_game_new') }}">Create new</a>
+        <table class="table table-striped my-3" style="background-color: #303540; border-color: #eff6ff">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Starting Date</th>
+                    <th>Ending Date</th>
+                    <th>Winner ID</th>
+                    <th>1st Team</th>
+                    <th>2nd Team</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for game in games %}
+                <tr>
+                    <td>{{ game.id }}</td>
+                    <td>{{ game.startingDate ? game.startingDate|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ game.endingDate ? game.endingDate|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ game.winnerID ? game.winnerID : null  }}</td>
+                    <td>{{ game.firstTeam }}</td>
+                    <td>{{ game.secondTeam }}</td>
+                    <td>
+                        <a href="{{ path('app_game_show', {'id': game.id}) }} " class="btn btn-outline-secondary" role="button">show</a>
+                        <a href="{{ path('app_game_edit', {'id': game.id}) }}" class="btn btn-outline btn-warning" role="button">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ path('app_game_new') }} " class="btn btn-outline-warning" role="button">Create new</a>
+    </div>
 {% endblock %}

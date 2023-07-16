@@ -4,8 +4,13 @@ namespace App\Form;
 
 use App\Entity\Team;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\Positive;
 
 class TeamType extends AbstractType
 {
@@ -13,9 +18,16 @@ class TeamType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('numberOfPlayers')
-            ->add('numberOfPoints')
-            ->add('games')
+            ->add('numberOfPlayers', IntegerType::class, [
+                'constraints' => [new Positive()],
+                'attr' => [
+                    'min' => 1
+                ]
+            ])
+            ->add('image', FileType::class, [
+                'data_class' => null
+            ])
+
         ;
     }
 

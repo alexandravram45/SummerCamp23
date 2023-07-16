@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\GameRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: GameRepository::class)]
 class Game
@@ -16,71 +18,85 @@ class Game
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $startingDate = null;
+    #[Assert\GreaterThanOrEqual('today')]
+    private ?DateTimeImmutable $startingDate = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $winnerID = null;
+    #[Assert\GreaterThanOrEqual('today')]
+    private ?DateTimeImmutable $endingDate = null;
 
-    #[ORM\ManyToMany(targetEntity: Team::class, mappedBy: 'games')]
-    private Collection $teams;
+    #[ORM\Column(nullable: true)]
+    private ?string $winnerID = null;
 
-    public function __construct()
-    {
-        $this->teams = new ArrayCollection();
-    }
+    #[ORM\Column]
+    private string $firstTeam;
+
+    #[ORM\Column]
+    #[Assert\NotEqualTo(propertyPath: 'firstTeam')]
+    private string $secondTeam;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getStartingDate(): ?\DateTimeImmutable
+    public function getStartingDate(): ?DateTimeImmutable
     {
         return $this->startingDate;
     }
 
-    public function setStartingDate(\DateTimeImmutable $startingDate): static
+    public function setStartingDate(?DateTimeImmutable $startingDate): static
     {
         $this->startingDate = $startingDate;
 
         return $this;
     }
 
-    public function getWinnerID(): ?int
+
+    public function getEndingDate(): ?DateTimeImmutable
+    {
+        return $this->endingDate;
+    }
+
+    public function setEndingDate(?DateTimeImmutable $endingDate = null): static
+    {
+        $this->endingDate = $endingDate;
+
+        return $this;
+    }
+
+    public function getWinnerID(): ?string
     {
         return $this->winnerID;
     }
 
-    public function setWinnerID(?int $winnerID): static
+    public function setWinnerID(?string $winnerID): static
     {
         $this->winnerID = $winnerID;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, Team>
-     */
-    public function getTeams(): Collection
+    public function getFirstTeam(): string
     {
-        return $this->teams;
+        return $this->firstTeam;
     }
 
-    public function addTeam(Team $team): static
+    public function setFirstTeam(string $firstTeam): static
     {
-        if (!$this->teams->contains($team)) {
-            $this->teams->add($team);
-            $team->addGame($this);
-        }
+        $this->firstTeam = $firstTeam;
 
         return $this;
     }
 
-    public function removeTeam(Team $team): static
+    public function getSecondTeam(): string
     {
-        if ($this->teams->removeElement($team)) {
-            $team->removeGame($this);
-        }
+        return $this->secondTeam;
+    }
+
+    public function setSecondTeam(string $secondTeam): static
+    {
+        $this->secondTeam = $secondTeam;
 
         return $this;
     }

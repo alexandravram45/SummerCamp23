@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Form\GameEditType;
 use App\Form\GameType;
 use App\Repository\GameRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,7 +35,7 @@ class GameController extends AbstractController
             return $this->redirectToRoute('app_game_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('game/new.html.twig', [
+        return $this->render('game/new.html.twig', [
             'game' => $game,
             'form' => $form,
         ]);
@@ -51,7 +52,7 @@ class GameController extends AbstractController
     #[Route('/{id}/edit', name: 'app_game_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Game $game, GameRepository $gameRepository): Response
     {
-        $form = $this->createForm(GameType::class, $game);
+        $form = $this->createForm(GameEditType::class, $game);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -60,9 +61,9 @@ class GameController extends AbstractController
             return $this->redirectToRoute('app_game_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('game/edit.html.twig', [
+        return $this->render('game/edit.html.twig', [
             'game' => $game,
-            'form' => $form,
+            'form' => $form
         ]);
     }
 
