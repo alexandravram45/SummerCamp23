@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Winner{% endblock %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="px-4 py-5 my-5 text-center" style="color: white">
+        <img class="d-block mx-auto mb-4" src="{{ asset('images/logo.png') }}" style="width: 300px; height: 300px">
+        <h1 class="display-5 fw-bold">Simplify Tournament Management</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">
+                Winner is your ultimate destination for organizing and managing exciting competitions in a seamless and user-friendly manner.
+                <br><br>
+                Are you ready to be a true Winner? Start now and let the games begin!
+            </p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a href="{{ path('app_team_new') }}" role="button" class="btn btn-warning btn-lg px-4 gap-3 mr-3">Create new Team</a>
+                <a href="{{ path('app_game_new') }}" role="button" class="btn btn-outline-warning btn-lg px-4 gap-3 mr-3">Create new Game</a>
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
