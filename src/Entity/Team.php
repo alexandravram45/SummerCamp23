@@ -27,14 +27,15 @@ class Team
     private ?string $name = null;
 
     #[ORM\Column]
-    #[Assert\GreaterThanOrEqual(0)]
+    #[Assert\GreaterThanOrEqual(1, message: "This number must be greater than 0!")]
     private int $numberOfPlayers;
 
     #[ORM\Column(nullable: true)]
     #[Assert\Image(
         maxSize: '2048k',
         mimeTypes: ['image/png', 'image/jpeg'],
-        maxSizeMessage: 'The image is too large.'
+        maxSizeMessage: 'The image is too large.',
+        mimeTypesMessage: 'This file must be .png or .jpeg!'
     )]
     private ?string $image = null;
 

@@ -18,11 +18,11 @@ class Game
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Assert\GreaterThanOrEqual('today')]
+    #[Assert\GreaterThanOrEqual('today', message: "This date value must be greater than or equal to today's date.")]
     private ?DateTimeImmutable $startingDate = null;
 
     #[ORM\Column(nullable: true)]
-    #[Assert\GreaterThanOrEqual('today')]
+    #[Assert\GreaterThanOrEqual('today', message: "This date value must be greater than or equal to today's date.")]
     private ?DateTimeImmutable $endingDate = null;
 
     #[ORM\Column(nullable: true)]

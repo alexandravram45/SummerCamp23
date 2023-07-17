@@ -17,13 +17,24 @@
                     {{ form_widget(form.startingDate) }}
                 </div>
             </div>
+            <div class="mx-auto my-2">
+                {{ form_errors(form.startingDate) }}
+            </div>
+
             <div class="row my-2">
                 {{ form_label(form.firstTeam) }}
                 {{ form_widget(form.firstTeam, { 'attr': {'class': 'form-control'} }) }}
             </div>
+            <div class="mx-auto my-2">
+                {{ form_errors(form.firstTeam) }}
+            </div>
+
             <div class="row my-2">
                 {{ form_label(form.secondTeam) }}
                 {{ form_widget(form.secondTeam, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <div class="mx-auto my-2">
+                {{ form_errors(form.secondTeam) }}
             </div>
 
             <button class="btn btn-outline-success mt-4">{{ button_label|default('Save') }}</button>

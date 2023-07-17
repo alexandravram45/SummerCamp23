@@ -6,6 +6,7 @@ use App\Entity\Game;
 use App\Form\GameEditType;
 use App\Form\GameType;
 use App\Repository\GameRepository;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,16 @@ class GameController extends AbstractController
     {
         return $this->render('game/index.html.twig', [
             'games' => $gameRepository->findAll(),
+            // TODO: sa poti sa pui null pe winnerID
+        ]);
+    }
+
+    #[Route('/played', name: 'app_game_played', methods: ['GET'])]
+    public function played(GameRepository $gameRepository): Response
+    {
+        return $this->render('game/played.html.twig', [
+            'filteredGames' => $gameRepository->filterByPlayed()
+            // TODO: sa poti sa pui null pe winnerID
         ]);
     }
 
@@ -75,5 +86,13 @@ class GameController extends AbstractController
         }
 
         return $this->redirectToRoute('app_game_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    public function filterByStartingDate(GameRepository $gameRepository): Response
+    {
+        return $this->render('game/index.html.twig', [
+            'games' => $gameRepository->findAll(),
+        ]);
+
     }
 }
