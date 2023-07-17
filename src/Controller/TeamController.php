@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Game;
 use App\Entity\Team;
 use App\Form\TeamType;
 use App\Repository\TeamRepository;
 use App\Service\FileUploader;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -99,5 +101,13 @@ class TeamController extends AbstractController
         }
 
         return $this->redirectToRoute('app_team_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    public function wins(EntityManagerInterface $entityManager, string $name){
+        $teamRepository = $entityManager->getRepository(Team::class);
+        $gameRepository = $entityManager->getRepository(Game::class);
+
+        $game = $gameRepository->findOneBy(['winnerID' => $name]);
+
     }
 }

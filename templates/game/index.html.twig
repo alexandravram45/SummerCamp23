@@ -17,6 +17,14 @@
         </div>
     <div class="container text-center my-5" style="color: white">
         <h1 >Scheduled games</h1>
+        <div class="btn-group">
+            <a href="{{ path('app_game_played') }}" class="btn btn-outline-warning" role="button" onclick="">All games</a>
+
+            <a href="{{ path('app_game_played') }}" class="btn btn-outline-warning" role="button" onclick="">Filter by played games</a>
+
+            <a href="{{ path('app_game_played') }}" class="btn btn-outline-warning" role="button" onclick="">Order by starting date </a>
+        </div>
+
 
         <table class="table table-striped my-3" style="background-color: #303540; border-color: #eff6ff">
             <thead>
@@ -30,7 +38,7 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody >
             {% for game in games %}
                 <tr>
                     <td>{{ game.id }}</td>
@@ -49,7 +57,9 @@
                     <td colspan="4">no records found</td>
                 </tr>
             {% endfor %}
+
             </tbody>
+
         </table>
         <a href="{{ path('app_game_new') }} " class="btn btn-outline-warning" role="button">Create new</a>
     </div>

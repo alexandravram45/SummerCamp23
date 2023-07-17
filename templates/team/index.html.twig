@@ -9,6 +9,17 @@
             transform: scale(1.05);
             background-color: red;
         }
+
+        .bg-image {
+            background-color: #1F406D;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        img:hover{
+            transform: scale(1.15);
+        }
+
+
     </style>
 {% endblock %}
 
@@ -39,8 +50,8 @@
                     -webkit-box-shadow: 1px 8px 17px -6px rgba(0,0,0,0.47);
                     box-shadow: 1px 8px 17px -6px rgba(0,0,0,0.47);
                     ">
-                        <div class="bg-image hover-zoom">
-                            <img class="card-img-top p-4 hover-shadow" src="{{ asset('images/' ~ team.image) }}" alt="Card image cap">
+                        <div class="bg-image hover-zoom" >
+                            <img class="card-img-top p-4 hover-shadow" src="{{ asset('images/' ~ team.image) }}" alt="Card image cap" style="width: 80%">
                         </div>
                         <div class="card-body">
                             <div class="d-inline-flex" >

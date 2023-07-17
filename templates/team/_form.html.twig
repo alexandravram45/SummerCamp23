@@ -9,15 +9,26 @@
                 {{ form_widget(form.name) }}
             </div>
         </div>
+        <div class="mx-auto my-2">
+            {{ form_errors(form.name) }}
+        </div>
+
         <div class="row my-2">
             {{ form_label(form.numberOfPlayers) }}
             {{ form_widget(form.numberOfPlayers, { 'attr': {'class': 'form-control'} }) }}
         </div>
+        <div class="mx-auto my-2">
+            {{ form_errors(form.numberOfPlayers) }}
+        </div>
+
         <div class="row my-2">
             {{ form_label(form.image) }}
             {{ form_widget(form.image, { 'attr': {'class': 'form-control', 'type': 'file'} }) }}
         </div>
-        <button class="btn btn-outline-success mt-4">{{ button_label|default('Update') }}</button>
+        <div class="mx-auto my-2">
+            {{ form_errors(form.image) }}
+        </div>
+        <button class="btn btn-outline-success mt-4">{{ button_label|default('Save') }}</button>
     </div>
 
 {{ form_end(form) }}
