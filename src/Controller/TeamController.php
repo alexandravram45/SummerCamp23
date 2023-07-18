@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\Team;
+use App\Form\TeamEditType;
 use App\Form\TeamType;
+use App\Repository\GameRepository;
 use App\Repository\TeamRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,7 +26,7 @@ class TeamController extends AbstractController
     public function index(TeamRepository $teamRepository): Response
     {
         return $this->render('team/index.html.twig', [
-            'teams' => $teamRepository->findAll(),
+            'teams' => $teamRepository->findAll()
         ]);
     }
 
@@ -78,10 +80,13 @@ class TeamController extends AbstractController
     #[Route('/{id}/edit', name: 'app_team_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Team $team, TeamRepository $teamRepository): Response
     {
-        $form = $this->createForm(TeamType::class, $team);
+        $form = $this->createForm(TeamEditType::class, $team);
         $form->handleRequest($request);
+        $originalImagePath = $team->getImage();
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $team->setImage($originalImagePath);
+
             $teamRepository->save($team, true);
 
             return $this->redirectToRoute('app_team_index', [], Response::HTTP_SEE_OTHER);
@@ -94,20 +99,18 @@ class TeamController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_team_delete', methods: ['POST'] )]
-    public function delete(Request $request, Team $team, TeamRepository $teamRepository): Response
+    public function delete(Request $request, Team $team, TeamRepository $teamRepository, GameRepository $gameRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$team->getId(), $request->request->get('_token'))) {
             $teamRepository->remove($team, true);
         }
 
+        while(($game = $gameRepository->findOneBy(['firstTeam' => $team->getName()])) or ($game = $gameRepository->findOneBy(['secondTeam' => $team->getName()])))
+        {
+            $gameRepository->remove($game, true);
+        }
+
         return $this->redirectToRoute('app_team_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    public function wins(EntityManagerInterface $entityManager, string $name){
-        $teamRepository = $entityManager->getRepository(Team::class);
-        $gameRepository = $entityManager->getRepository(Game::class);
-
-        $game = $gameRepository->findOneBy(['winnerID' => $name]);
-
-    }
 }

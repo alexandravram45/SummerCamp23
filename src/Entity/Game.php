@@ -28,12 +28,21 @@ class Game
     #[ORM\Column(nullable: true)]
     private ?string $winnerID = null;
 
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: GameTeam::class)]
+    private Collection $gameTeams;
+
     #[ORM\Column]
-    private string $firstTeam;
+    private ?string $firstTeam;
 
     #[ORM\Column]
     #[Assert\NotEqualTo(propertyPath: 'firstTeam')]
-    private string $secondTeam;
+    private ?string $secondTeam;
+
+    public function __construct()
+    {
+        $this->gameTeams = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -105,4 +114,35 @@ class Game
     {
         return $this->getWinnerID();
     }
+
+    /**
+     * @return Collection<int, GameTeam>
+     */
+    public function getGameTeams(): Collection
+    {
+        return $this->gameTeams;
+    }
+
+    public function addGameTeam(GameTeam $gameTeam): static
+    {
+        if (!$this->gameTeams->contains($gameTeam)) {
+            $this->gameTeams->add($gameTeam);
+            $gameTeam->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGameTeam(GameTeam $gameTeam): static
+    {
+        if ($this->gameTeams->removeElement($gameTeam)) {
+            // set the owning side to null (unless already changed)
+            if ($gameTeam->getGame() === $this) {
+                $gameTeam->setGame(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

@@ -39,6 +39,9 @@ class Team
     )]
     private ?string $image = null;
 
+    #[ORM\Column]
+    private int $wins = 0;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -77,6 +80,19 @@ class Team
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getWins(): int
+    {
+
+        return $this->wins;
+    }
+
+    public function setWins(int $wins): self
+    {
+        $this->wins = $wins;
 
         return $this;
     }

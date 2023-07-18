@@ -1,50 +1,50 @@
-{% extends 'base.html.twig' %}
+    {% extends 'base.html.twig' %}
 
-{% block title %}New Game{% endblock %}
+    {% block title %}New Game{% endblock %}
 
-{% block body %}
+    {% block body %}
 
-    <div class="d-flex flex-column text-center justify-content-center mx-auto p-4" style="width: 600px; margin-top: 100px; color:white">
-        <h1 class="my-4">Create new Game</h1>
+        <div class="d-flex flex-column text-center justify-content-center mx-auto p-4" style="width: 600px; margin-top: 100px; color:white">
+            <h1 class="my-4">Create new Game</h1>
 
-        {{ form_start(form) }}
-        <div class="container col g-3 p-5" style="background-color: #1b1d24; -webkit-box-shadow: 0px 4px 11px -1px rgba(0,0,0,0.52); box-shadow: 0px 4px 11px -1px rgba(0,0,0,0.52);">
-            <div class="row">
-                <div style="position: absolute">
-                    {{ form_label(form.startingDate) }}
+            {{ form_start(form) }}
+            <div class="container col g-3 p-5" style="background-color: #1b1d24; -webkit-box-shadow: 0px 4px 11px -1px rgba(0,0,0,0.52); box-shadow: 0px 4px 11px -1px rgba(0,0,0,0.52);">
+                <div class="row">
+                    <div style="position: absolute">
+                        {{ form_label(form.startingDate) }}
+                    </div>
+                    <div class="mx-auto">
+                        {{ form_widget(form.startingDate) }}
+                    </div>
                 </div>
-                <div class="mx-auto">
-                    {{ form_widget(form.startingDate) }}
+                <div class="mx-auto my-2">
+                    {{ form_errors(form.startingDate) }}
                 </div>
-            </div>
-            <div class="mx-auto my-2">
-                {{ form_errors(form.startingDate) }}
+
+                <div class="row my-2">
+                    {{ form_label(form.firstTeam) }}
+                    {{ form_widget(form.firstTeam, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+                <div class="mx-auto my-2">
+                    {{ form_errors(form.firstTeam) }}
+                </div>
+
+                <div class="row my-2">
+                    {{ form_label(form.secondTeam) }}
+                    {{ form_widget(form.secondTeam, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+                <div class="mx-auto my-2">
+                    {{ form_errors(form.secondTeam) }}
+                </div>
+
+                <button class="btn btn-outline-success mt-4">{{ button_label|default('Save') }}</button>
             </div>
 
-            <div class="row my-2">
-                {{ form_label(form.firstTeam) }}
-                {{ form_widget(form.firstTeam, { 'attr': {'class': 'form-control'} }) }}
-            </div>
-            <div class="mx-auto my-2">
-                {{ form_errors(form.firstTeam) }}
-            </div>
+            {{ form_end(form) }}
 
-            <div class="row my-2">
-                {{ form_label(form.secondTeam) }}
-                {{ form_widget(form.secondTeam, { 'attr': {'class': 'form-control'} }) }}
-            </div>
-            <div class="mx-auto my-2">
-                {{ form_errors(form.secondTeam) }}
-            </div>
 
-            <button class="btn btn-outline-success mt-4">{{ button_label|default('Save') }}</button>
+            <a href="{{ path('app_game_index') }}" class="btn btn-outline-secondary mt-4" style="width: 150px" role="button">
+                <i class="fa-sharp fa-solid fa-arrow-left mr-2"></i>back to list</a>
         </div>
 
-        {{ form_end(form) }}
-
-
-        <a href="{{ path('app_game_index') }}" class="btn btn-outline-secondary mt-4" style="width: 150px" role="button">
-            <i class="fa-sharp fa-solid fa-arrow-left mr-2"></i>back to list</a>
-    </div>
-
-{% endblock %}
+    {% endblock %}

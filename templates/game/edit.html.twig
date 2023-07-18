@@ -21,6 +21,9 @@
                 <p>Winner</p>
                 {{ form_widget(form.winnerID, { 'attr': {'class': 'form-control'} }) }}
             </div>
+            <div class="mx-auto my-2">
+                {{ form_errors(form.endingDate) }}
+            </div>
 
             <button class="btn btn-outline-success mt-4">{{ button_label|default('Update') }}</button>
         </div>

@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block body %}
+    {% set counter = 0 %}
 
     <div class="px-4 py-5 my-5 text-center" style="color: white">
         <img class="d-block mx-auto mb-4" src="{{ asset('images/logo.png') }}" style="width: 300px; height: 300px">
@@ -23,7 +24,52 @@
 
             </div>
         </div>
+
+        <h1 class="display-5 fw-bold" style="margin-top: 150px; margin-bottom: 50px">Team Ranking</h1>
+
+        <div class="container w-70">
+            <table class="table my-3" style="background-color: transparent; vertical-align: middle !important;">
+                <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Team Logo</th>
+                    <th>Name</th>
+                    <th>Wins</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody >
+                {% for team in teams %}
+                    <tr>
+                        <td class="font-weight-bold" style="vertical-align: middle">
+                            {% set counter = counter + 1 %}
+                            <h2 class="display-4">
+                                {{ counter }}
+                            </h2>
+                        </td>
+                        <td style="vertical-align: middle">
+                            <img class="card-img-top p-4 hover-shadow" src="{{ asset('images/' ~ team.image) }}" alt="Card image cap" style="width: 25%">
+                        </td>
+                        <td style="vertical-align: middle">{{ team.name }}</td>
+                        <td style="vertical-align: middle">{{ team.wins }}</td>
+                        <td style="vertical-align: middle">
+                            <a href="{{ path('app_team_show', {'id': team.id}) }} " class="btn btn-outline-secondary mb-2" role="button">show</a>
+                            <a href="{{ path('app_team_edit', {'id': team.id}) }}" class="btn btn-outline btn-warning" role="button">edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">no records found</td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
     </div>
+
+
 
 
 {% endblock %}

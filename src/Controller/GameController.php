@@ -6,6 +6,7 @@ use App\Entity\Game;
 use App\Form\GameEditType;
 use App\Form\GameType;
 use App\Repository\GameRepository;
+use App\Repository\TeamRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +21,6 @@ class GameController extends AbstractController
     {
         return $this->render('game/index.html.twig', [
             'games' => $gameRepository->findAll(),
-            // TODO: sa poti sa pui null pe winnerID
         ]);
     }
 
@@ -29,7 +29,14 @@ class GameController extends AbstractController
     {
         return $this->render('game/played.html.twig', [
             'filteredGames' => $gameRepository->filterByPlayed()
-            // TODO: sa poti sa pui null pe winnerID
+        ]);
+    }
+
+    #[Route('/ordered', name: 'app_game_ordered', methods: ['GET'])]
+    public function ordered(GameRepository $gameRepository): Response
+    {
+        return $this->render('game/ordered.html.twig', [
+            'orderedGames' => $gameRepository->orderByStartingDate()
         ]);
     }
 
@@ -61,10 +68,15 @@ class GameController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_game_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Game $game, GameRepository $gameRepository): Response
+    public function edit(Request $request, Game $game, GameRepository $gameRepository, TeamRepository $teamRepository): Response
     {
         $form = $this->createForm(GameEditType::class, $game);
         $form->handleRequest($request);
+
+        $winnerID = $form->get('winnerID')->getData(); //luam numele echipei din form-ul cu winnerID
+        $team = $teamRepository->findOneBy(['name' => $winnerID]); //salvam in team echipa care are numele egal cu winnerID
+
+        $team?->setWins($team->getWins() + 1);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $gameRepository->save($game, true);
@@ -88,11 +100,4 @@ class GameController extends AbstractController
         return $this->redirectToRoute('app_game_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    public function filterByStartingDate(GameRepository $gameRepository): Response
-    {
-        return $this->render('game/index.html.twig', [
-            'games' => $gameRepository->findAll(),
-        ]);
-
-    }
 }

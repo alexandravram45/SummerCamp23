@@ -28,6 +28,7 @@ class GameEditType extends GameType
                 'choices' => [
                     "{$game->getFirstTeam()}" => $game->getFirstTeam(),
                     "{$game->getSecondTeam()}" => $game->getSecondTeam(),
+                    'egal' => null
                 ],
                 'multiple' => false,
             ])

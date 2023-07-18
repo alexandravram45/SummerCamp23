@@ -21,9 +21,9 @@
             <div class="btn-group my-4">
                 <a href="{{ path('app_game_index') }}" class="btn btn-outline-warning" role="button" onclick="">All games</a>
 
-                <a href="{{ path('app_game_played') }}" class="btn btn-warning" role="button" onclick="">Filter by played games</a>
+                <a href="{{ path('app_game_played') }}" class="btn btn-outline-warning" role="button" onclick="">Filter by played games</a>
 
-                <a href="{{ path('app_game_ordered') }}" class="btn btn-outline-warning" role="button" onclick="">Order by starting date </a>
+                <a href="{{ path('app_game_ordered') }}" class="btn btn-warning" role="button" onclick="">Order by starting date </a>
             </div>
 
             <table class="table table-striped my-3" style="background-color: #303540; border-color: #eff6ff">
@@ -40,7 +40,7 @@
                 </thead>
 
                 <tbody>
-                {% for game in filteredGames %}
+                {% for game in orderedGames %}
                     <tr>
                         <td>{{ game.id }}</td>
                         <td>{{ game.startingDate ? game.startingDate|date('Y-m-d H:i:s') : '' }}</td>

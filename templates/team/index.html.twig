@@ -2,27 +2,6 @@
 
 {% block title %}Team index{% endblock %}
 
-
-{% block head %}
-    <style>
-        .card:hover{
-            transform: scale(1.05);
-            background-color: red;
-        }
-
-        .bg-image {
-            background-color: #1F406D;
-            transition: background-color 0.2s ease-in-out;
-        }
-
-        img:hover{
-            transform: scale(1.15);
-        }
-
-
-    </style>
-{% endblock %}
-
 {% block body %}
 
     <div class="jumbotron" style="
@@ -40,34 +19,43 @@
 
     <div class="container text-center my-5" style="color: white">
         <div class="container" style="color: white">
-            <a href="{{ path('app_team_new') }}" class="btn btn-outline-warning mb-4" role="button">Create new</a>
 
             <div class="row">
                 {% for team in teams %}
-                <div class="col-3 my-3">
-                    <div class="card" style="
-                    background-color: #303540;
-                    -webkit-box-shadow: 1px 8px 17px -6px rgba(0,0,0,0.47);
-                    box-shadow: 1px 8px 17px -6px rgba(0,0,0,0.47);
-                    ">
-                        <div class="bg-image hover-zoom" >
-                            <img class="card-img-top p-4 hover-shadow" src="{{ asset('images/' ~ team.image) }}" alt="Card image cap" style="width: 80%">
-                        </div>
-                        <div class="card-body">
-                            <div class="d-inline-flex" >
-                                <img src="{{ asset('images/logo.png') }}" style="width: 40px; height: 40px" alt="">
-                                <h5 class="card-title"style="padding: 7px 0">{{ team.name }}</h5>
+                <div class="col-3 my-3 card-group ">
+                        <div class="card" style="
+                            transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+                            cursor: pointer;
+                            background-color: #303540;
+                            -webkit-box-shadow: 1px 8px 17px -6px rgba(0,0,0,0.47);
+                            box-shadow: 1px 8px 17px -6px rgba(0,0,0,0.47);"
+                             onmouseover="this.style.transform = 'scale(1.03)'; this.style.boxShadow = '0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06)'; this.style.backgroundColor= '#373d49'"
+                             onmouseout="this.style.transform = 'scale(1)'; this.style.boxShadow = '1px 8px 17px -6px rgba(0,0,0,0.47)'; this.style.backgroundColor= '#303540'">
+
+                            <a href="{{ path('app_team_show', {'id': team.id}) }}" class="stretched-link" style="text-transform: none">
+                                <div class="bg-image" >
+                                    <img class="card-img-top p-4" src="{{ asset('images/' ~ team.image) }}" alt="Card image cap" style="width: 80%">
+                                </div>
+                            </a>
+                            <div class="card-body mt-auto">
+                                <div class="d-inline-flex" >
+                                    <img src="{{ asset('images/logo.png') }}" style="width: 40px; height: 40px" alt="">
+                                    <h4 class="card-title"style="padding: 5px 0">{{ team.name }}</h4>
+                                </div>
+
+                                <p class="card-text">Players: {{ team.numberOfPlayers }}</p>
+                                <p class="card-text">Wins:
+                                    {{ team.getWins() }}
+                                </p>
+                                <a href="{{ path('app_team_edit', {'id': team.id}) }}" class="btn btn-outline btn-warning" role="button">edit</a>
                             </div>
 
-                            <p class="card-text">Players: {{ team.numberOfPlayers }}</p>
-                            <p class="card-text">Wins: </p>
-                            <a href="{{ path('app_team_show', {'id': team.id}) }}" class="btn btn-outline-secondary" role="button">show</a>
-                            <a href="{{ path('app_team_edit', {'id': team.id}) }}" class="btn btn-outline btn-warning" role="button">edit</a>
                         </div>
-                    </div>
                 </div>
                 {% endfor %}
             </div>
+            <a href="{{ path('app_team_new') }}" class="btn btn-outline-warning mt-4" role="button">Create new</a>
+
         </div>
     </div>
 {% endblock %}

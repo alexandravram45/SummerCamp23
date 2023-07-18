@@ -17,8 +17,8 @@
         </div>
     <div class="container text-center my-5" style="color: white">
         <h1 >Scheduled games</h1>
-        <div class="btn-group">
-            <a href="{{ path('app_game_played') }}" class="btn btn-outline-warning" role="button" onclick="">All games</a>
+        <div class="btn-group my-4">
+            <a href="{{ path('app_game_index') }}" class="btn btn-warning" role="button" onclick="">All games</a>
 
             <a href="{{ path('app_game_played') }}" class="btn btn-outline-warning" role="button" onclick="">Filter by played games</a>
 
@@ -32,7 +32,7 @@
                     <th>Id</th>
                     <th>Starting Date</th>
                     <th>Ending Date</th>
-                    <th>Winner ID</th>
+                    <th>Winner</th>
                     <th>1st Team</th>
                     <th>2nd Team</th>
                     <th>Actions</th>
@@ -44,7 +44,7 @@
                     <td>{{ game.id }}</td>
                     <td>{{ game.startingDate ? game.startingDate|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ game.endingDate ? game.endingDate|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ game.winnerID ? game.winnerID : null  }}</td>
+                    <td>{{ game.winnerID ? game.winnerID : "="  }}</td>
                     <td>{{ game.firstTeam }}</td>
                     <td>{{ game.secondTeam }}</td>
                     <td>

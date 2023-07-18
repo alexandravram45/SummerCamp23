@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Team;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @extends ServiceEntityRepository<Team>
@@ -39,6 +41,18 @@ class TeamRepository extends ServiceEntityRepository
         }
     }
 
+    public function orderByWins(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->orderBy('t.wins', 'DESC')
+            ->andWhere('t.wins != 0')
+            ->setMaxResults(20)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
 //    /**
 //     * @return Team[] Returns an array of Team objects
 //     */
@@ -54,13 +68,4 @@ class TeamRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Team
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }
