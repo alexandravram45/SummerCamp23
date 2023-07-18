@@ -5,9 +5,9 @@
     {% block body %}
     <div class="container text-center" style="margin-top: 100px; color: white">
         <h1>{{ team.name }}</h1>
-{#        <img src="{{ images('@images/team1.png') }}" alt="image">#}
+        <img class="card-img-top p-4 hover-shadow" src="{{ asset('images/' ~ team.image) }}" alt="Card image cap" style="width: 25%">
 
-        <table class="table table-striped my-3" style="background-color: #303540; border-color: #eff6ff">
+        <table class="table my-3" style="background-color: transparent;">
             <tbody>
                 <tr>
                     <th>Id</th>
@@ -23,7 +23,7 @@
                 </tr>
                 <tr>
                     <th>Wins</th>
-                    <td></td>
+                    <td>{{ team.wins }}</td>
                 </tr>
             </tbody>
         </table>
